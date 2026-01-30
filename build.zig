@@ -12,6 +12,13 @@ pub fn build(b: *std.Build) void {
             .optimize = optimize,
         }),
     });
+
+    const zlib_dep = b.dependency("zlib", .{
+        .target = target,
+        .optimize = optimize,
+    });
+    exe.root_module.linkLibrary(zlib_dep.artifact("z"));
+
     b.installArtifact(exe);
 
     const run_step = b.step("run", "Run the app");
